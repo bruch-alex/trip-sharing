@@ -28,3 +28,32 @@ CREATE TRIGGER update_modified_time
     ON users
     FOR EACH ROW
 EXECUTE FUNCTION update_modified_column();
+
+CREATE TABLE IF NOT EXISTS vehicles
+(
+    id        SERIAL PRIMARY KEY,
+    driver_id INT NOT NULL,
+    FOREIGN KEY (driver_id) REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS trips
+(
+    id         SERIAL PRIMARY KEY,
+    driver_id  INT  NOT NULL,
+    vehicle_id INT  NOT NULL,
+    start_date DATE NOT NULL,
+    start_time TIME,
+    end_date   DATE,
+    end_time   TIME,
+    FOREIGN KEY (driver_id) REFERENCES users (id),
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles (id)
+);
+
+CREATE TABLE IF NOT EXISTS trip_passenger
+(
+    trip_id      INT NOT NULL,
+    passenger_id INT NOT NULL,
+    FOREIGN KEY (trip_id) REFERENCES trips (id),
+    FOREIGN KEY (passenger_id) REFERENCES users (id),
+    PRIMARY KEY (trip_id, passenger_id)
+)
