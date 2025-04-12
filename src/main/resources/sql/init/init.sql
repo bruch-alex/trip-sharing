@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS user_logins
 (
     id           SERIAL PRIMARY KEY,
     email        TEXT NOT NULL UNIQUE,   --TODO: enable this later CHECK (email ~ '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'),
-    phone_number TEXT NOT NULL UNIQUE,   --TODO: add regex check
     password     TEXT NOT NULL,          --TODO: add length check
     enabled      BOOLEAN   DEFAULT TRUE, --TODO: set default to false and send email to activate account
     created_at   TIMESTAMP DEFAULT NOW(),

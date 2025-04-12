@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User registration form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/yeti/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <form th:action="@{/users/register}" method="post">
+        <div class="align-content-center">
+            <h1 class="text-center">Register new user</h1>
+            <p class="text-center">Please fill in this form to create an account.</p>
+            <hr>
+
+            <label for="email" class="form-label"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" name="email" id="email" required>
+            <br>
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+            <button type="submit" >Register</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
