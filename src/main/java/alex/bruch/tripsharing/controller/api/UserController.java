@@ -15,7 +15,7 @@ public class UserController {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    @GetMapping
+    @GetMapping("/test")
     public void test() {
         customUserDetailsService.createUser("test", "test");
         System.out.println(customUserDetailsService.loadUserByUsername("test"));
