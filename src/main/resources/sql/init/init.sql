@@ -7,16 +7,17 @@ CREATE TABLE IF NOT EXISTS user_logins
     email        TEXT NOT NULL UNIQUE CHECK (email ~ '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'),
     phone_number TEXT NOT NULL UNIQUE, --TODO: add regex check
     password     TEXT NOT NULL,        --TODO: add length check
+    enabled      BOOLEAN   DEFAULT TRUE,
     created_at   TIMESTAMP DEFAULT NOW(),
     updated_at   TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS user_profiles
 (
-    id INTEGER PRIMARY KEY,
-    first_name   TEXT NOT NULL CHECK (LENGTH(first_name) >= 2),
-    middle_name  TEXT CHECK (LENGTH(middle_name) >= 2),
-    last_name    TEXT NOT NULL CHECK (LENGTH(last_name) >= 2),
+    id          INTEGER PRIMARY KEY,
+    first_name  TEXT NOT NULL CHECK (LENGTH(first_name) >= 2),
+    middle_name TEXT CHECK (LENGTH(middle_name) >= 2),
+    last_name   TEXT NOT NULL CHECK (LENGTH(last_name) >= 2),
     FOREIGN KEY (id) REFERENCES user_logins (id)
 );
 
