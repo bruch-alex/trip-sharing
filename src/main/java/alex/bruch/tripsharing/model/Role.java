@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,7 +20,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<UserLogin> users;
+    private List<UserLogin> users;
 
     public Role(String name) {
         this.name = name;

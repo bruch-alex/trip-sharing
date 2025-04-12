@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -49,7 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         userLogin.setEmail(email);
         userLogin.setPassword(passwordEncoder.encode(password));
         userLogin.setEnabled(true);
-        userLogin.getRoles().add(role);
+        userLogin.setRoles(List.of(role));
 
         userLoginRepository.save(userLogin);
     }
