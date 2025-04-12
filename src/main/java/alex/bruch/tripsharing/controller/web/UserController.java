@@ -26,6 +26,6 @@ public class UserController {
     @PostMapping("/register")
     public String postRegisterPage(@ModelAttribute UserRegistrationDTO userRegistrationDTO) {
         customUserDetailsService.createUser(userRegistrationDTO.email(), userRegistrationDTO.password());
-        return "redirect:register";
+        return "redirect:/users/register";
     }
 }
