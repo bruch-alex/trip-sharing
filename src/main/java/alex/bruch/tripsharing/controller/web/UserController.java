@@ -1,6 +1,6 @@
 package alex.bruch.tripsharing.controller.web;
 
-import alex.bruch.tripsharing.model.UserRegistrationDTO;
+import alex.bruch.tripsharing.dto.UserRegistrationDTO;
 import alex.bruch.tripsharing.service.impl.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

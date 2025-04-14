@@ -8,19 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "user_profiles")
-public class UserProfile {
-
+public class Vehicle {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-    private String middleName;
-    private String lastName;
-
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private UserLogin userLogin;
+    private UserLogin driver;
+
 }
