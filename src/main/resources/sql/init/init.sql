@@ -3,12 +3,12 @@ CREATE SCHEMA public;
 
 CREATE TABLE IF NOT EXISTS user_logins
 (
-    id           SERIAL PRIMARY KEY,
-    email        TEXT NOT NULL UNIQUE,   --TODO: enable this later CHECK (email ~ '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'),
-    password     TEXT NOT NULL,          --TODO: add length check
-    enabled      BOOLEAN   DEFAULT TRUE, --TODO: set default to false and send email to activate account
-    created_at   TIMESTAMP DEFAULT NOW(),
-    updated_at   TIMESTAMP
+    id         SERIAL PRIMARY KEY,
+    email      TEXT NOT NULL UNIQUE,   --TODO: enable this later CHECK (email ~ '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'),
+    password   TEXT NOT NULL,          --TODO: add length check
+    enabled    BOOLEAN   DEFAULT TRUE, --TODO: set default to false and send email to activate account
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS user_profiles
@@ -58,15 +58,11 @@ CREATE TABLE IF NOT EXISTS vehicles
 
 CREATE TABLE IF NOT EXISTS trips
 (
-    id                     SERIAL PRIMARY KEY,
-    driver_id              INT       NOT NULL,
-    vehicle_id             INT       NOT NULL,
-    scheduled_start_time   TIMESTAMP NOT NULL,
-    scheduled_arrival_time TIMESTAMP NOT NULL,
-    actual_start_time      TIMESTAMP,
-    actual_arrival_time    TIMESTAMP,
-    FOREIGN KEY (driver_id) REFERENCES user_logins (id),
-    FOREIGN KEY (vehicle_id) REFERENCES vehicles (id)
+    id          SERIAL PRIMARY KEY,
+    driver_id   INT NOT NULL,
+    origin      TEXT,
+    destination TEXT,
+    FOREIGN KEY (driver_id) REFERENCES user_logins (id)
 );
 
 CREATE TABLE IF NOT EXISTS trip_passenger

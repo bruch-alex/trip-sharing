@@ -1,4 +1,4 @@
-package alex.bruch.tripsharing.model;
+package alex.bruch.tripsharing.dto;
 
 public record UserRegistrationDTO(
         String email,

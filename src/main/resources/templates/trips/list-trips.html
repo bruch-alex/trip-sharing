@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Tickets</title>
+    <link rel="stylesheet" href="/trip-card.css">
+</head>
+<body>
+<main layout:fragment="content" class="container mt-5">
+
+    <!--Page navi-->
+    <nav aria-label="Page navigation" class="mt-4 d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                <a class="page-link" th:href="@{/trips/search(page=${page.number - 1}, origin=${origin}, destination=${destination})}">Previous</a>
+            </li>
+
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${page.number == i} ? 'active'">
+                <a class="page-link" th:href="@{/trips/search(page=${i}, origin=${origin}, destination=${destination})}" th:text="${i + 1}">1</a>
+            </li>
+
+            <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                <a class="page-link" th:href="@{/trips/search(page=${page.number + 1}, origin=${origin}, destination=${destination})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+    <h2>Available trips</h2>
+
+    <div th:each="trip : ${trips}">
+        <th:block th:replace="~{fragments/trip-fragment :: tripCard(${trip})}"></th:block>
+    </div>
+
+</main>
+</body>
+</html>

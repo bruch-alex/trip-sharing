@@ -27,6 +27,9 @@ public class SecurityConfig {
                     auth.anyRequest().permitAll();
                 })
                 .formLogin(Customizer.withDefaults())
+                .rememberMe(auth -> {
+                    auth.key("secret").tokenValiditySeconds(60 * 60);
+                })
                 .build();
     }
 

@@ -32,6 +32,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserLogin login = userLoginRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
+        System.out.println("Logged in");
+
         return new User(
                 login.getEmail(),
                 login.getPassword(),

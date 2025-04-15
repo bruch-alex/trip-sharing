@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search trips</title>
+</head>
+<body>
+<main layout:fragment="content" class="container mt-5">
+
+    <h2 class="text-center">Bus Ticket Search</h2>
+
+    <form action="/trips/search" method="GET">
+        <div class="mb-3">
+            <label for="origin" class="form-label">Origin</label>
+            <input type="text" class="form-control" id="origin" name="origin"
+                   placeholder="Enter the origin location" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="destination" class="form-label">Destination</label>
+            <input type="text" class="form-control" id="destination" name="destination"
+                   placeholder="Enter the destination location">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+</main>
+</body>
+</html>
