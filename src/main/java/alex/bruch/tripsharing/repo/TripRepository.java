@@ -10,5 +10,5 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     Page<Trip> findAllByOrigin(String origin, Pageable pageable);
 
-    Page<Trip> findAllByDestinationAndOrigin(String destination, String origin, Pageable pageable);
+    Page<Trip> findAllByOriginAndDestination(String origin, String destination, Pageable pageable);
 }

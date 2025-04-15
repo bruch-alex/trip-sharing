@@ -14,13 +14,5 @@ public interface TripService {
 
     void update(Trip trip);
 
-    Page<Trip> findAllPageable(Pageable pageable);
-
-    Page<Trip> findAllByDestination(String destination, Pageable pageable);
-
-    Page<Trip> findAllByOrigin(String origin, Pageable pageable);
-
-    Page<Trip> findAllByDestinationAndOrigin(String destination, String origin, Pageable pageable);
-
-    Trip prepareTripForTheDriver(String driverEmail);
+    Page<Trip> searchTrips(String origin, String destination, Pageable pageable);
 }

@@ -1,12 +1,11 @@
 package alex.bruch.tripsharing.service.impl;
 
-import alex.bruch.tripsharing.model.Trip;
 import alex.bruch.tripsharing.dto.TripFormDTO;
+import alex.bruch.tripsharing.model.Trip;
 import alex.bruch.tripsharing.model.UserLogin;
 import alex.bruch.tripsharing.repo.TripRepository;
 import alex.bruch.tripsharing.repo.UserLoginRepository;
 import alex.bruch.tripsharing.service.TripService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +17,6 @@ public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final UserLoginRepository userLoginRepository;
 
-    @Autowired
     public TripServiceImpl(TripRepository tripRepository, UserLoginRepository userLoginRepository) {
         this.tripRepository = tripRepository;
         this.userLoginRepository = userLoginRepository;
@@ -53,36 +51,19 @@ public class TripServiceImpl implements TripService {
         tripRepository.save(trip);
     }
 
-    @Override
-    public Page<Trip> findAllPageable(Pageable pageable) {
-        return tripRepository.findAll(pageable);
-    }
+    public Page<Trip> searchTrips(String origin, String destination, Pageable pageable) {
+        Page<Trip> trips;
 
-    @Override
-    public Page<Trip> findAllByDestination(String destination, Pageable pageable) {
-        return tripRepository.findAllByDestination(destination, pageable);
-    }
-
-    @Override
-    public Page<Trip> findAllByOrigin(String origin, Pageable pageable) {
-        return tripRepository.findAllByOrigin(origin, pageable);
-    }
-
-    @Override
-    public Page<Trip> findAllByDestinationAndOrigin(String destination, String origin, Pageable pageable) {
-        return tripRepository.findAllByDestinationAndOrigin(destination, origin, pageable);
-    }
-
-    public Trip prepareTripForTheDriver(String driverEmail) {
-        UserLogin userLogin = userLoginRepository.findByEmail(driverEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        Trip trip = new Trip();
-        if (userLogin != null) {
-            System.out.println("user logged in");
+        if (!origin.isEmpty() && !destination.isEmpty()) {
+            trips = tripRepository.findAllByOriginAndDestination(destination, origin, pageable);
+        } else if (!destination.isEmpty()) {
+            trips = tripRepository.findAllByDestination(destination, pageable);
+        } else if (!origin.isEmpty()) {
+            trips = tripRepository.findAllByOrigin(origin, pageable);
+        } else {
+            trips = tripRepository.findAll(pageable);
         }
-        trip.setDriver(userLogin);
-        return trip;
+        return trips;
     }
 
 }
