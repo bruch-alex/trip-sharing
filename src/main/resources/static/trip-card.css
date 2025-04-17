@@ -3,7 +3,7 @@ body {
 }
 
 .trip-card {
-    border-radius: 12px;
+    border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     padding: 20px;
@@ -18,21 +18,20 @@ body {
     border-radius: 20px;
 }
 
-.ticket-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .route-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin: 15px;
 }
 
 .route-info .city-time {
     text-align: center;
+}
+
+.city-time .time {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .route-info span {
@@ -43,24 +42,4 @@ body {
 
 .route-duration {
     text-align: center;
-    font-size: 0.85rem;
-    color: #888;
-}
-
-.price-section {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #000;
-}
-
-.luggage-info {
-    font-size: 0.85rem;
-    color: #555;
-}
-
-.trip-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
 }

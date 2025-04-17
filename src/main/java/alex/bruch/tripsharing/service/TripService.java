@@ -1,12 +1,12 @@
 package alex.bruch.tripsharing.service;
 
+import alex.bruch.tripsharing.dto.TripDTO;
 import alex.bruch.tripsharing.model.Trip;
-import alex.bruch.tripsharing.dto.TripFormDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TripService {
-    void createTrip(TripFormDTO tripFormDTO);
+    void createTrip(TripDTO tripDTO);
 
     Trip findById(Long id);
 
@@ -14,5 +14,5 @@ public interface TripService {
 
     void update(Trip trip);
 
-    Page<Trip> searchTrips(String origin, String destination, Pageable pageable);
+    Page<TripDTO> searchTrips(String origin, String destination, Pageable pageable);
 }
