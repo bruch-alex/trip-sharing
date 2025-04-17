@@ -68,7 +68,7 @@ public class TripServiceImpl implements TripService {
         } else if (!destination.isEmpty()) {
             tripPage = tripRepository.findAllByDestination(destination, pageable);
         } else if (!origin.isEmpty()) {
-            tripPage = tripRepository.findAllByOrigin(origin, pageable);
+            tripPage = tripRepository.findAllByOriginIgnoreCase(origin, pageable);
         } else {
             tripPage = tripRepository.findAll(pageable);
         }

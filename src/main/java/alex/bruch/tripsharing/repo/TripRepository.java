@@ -10,7 +10,7 @@ import java.util.List;
 public interface TripRepository extends JpaRepository<Trip, Long> {
     Page<Trip> findAllByDestination(String destination, Pageable pageable);
 
-    Page<Trip> findAllByOrigin(String origin, Pageable pageable);
+    Page<Trip> findAllByOriginIgnoreCase(String origin, Pageable pageable);
 
     Page<Trip> findAllByOriginAndDestination(String origin, String destination, Pageable pageable);
 }

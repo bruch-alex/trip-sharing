@@ -33,9 +33,6 @@ public class TripController {
                          @PageableDefault(size = 5) Pageable pageable,
                          Model model) {
         Page<TripDTO> resultTrips = tripService.searchTrips(origin, destination, pageable);
-
-        //model.addAttribute("origin", origin);
-        //model.addAttribute("destination", destination);
         model.addAttribute("page", resultTrips);
         model.addAttribute("trips", resultTrips.getContent());
 
