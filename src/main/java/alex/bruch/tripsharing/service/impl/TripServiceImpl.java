@@ -1,35 +1,43 @@
 package alex.bruch.tripsharing.service.impl;
 
-import alex.bruch.tripsharing.dto.TripFormDTO;
+import alex.bruch.tripsharing.dto.TripDTO;
+import alex.bruch.tripsharing.service.mapper.TripMapper;
 import alex.bruch.tripsharing.model.Trip;
 import alex.bruch.tripsharing.model.UserLogin;
 import alex.bruch.tripsharing.repo.TripRepository;
 import alex.bruch.tripsharing.repo.UserLoginRepository;
 import alex.bruch.tripsharing.service.TripService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TripServiceImpl implements TripService {
 
     private final TripRepository tripRepository;
     private final UserLoginRepository userLoginRepository;
+    private final TripMapper tripMapper;
 
-    public TripServiceImpl(TripRepository tripRepository, UserLoginRepository userLoginRepository) {
+    public TripServiceImpl(TripRepository tripRepository, UserLoginRepository userLoginRepository, TripMapper tripMapper) {
         this.tripRepository = tripRepository;
         this.userLoginRepository = userLoginRepository;
+        this.tripMapper = tripMapper;
     }
 
     @Override
-    public void createTrip(TripFormDTO tripFormDTO) {
-        UserLogin user = userLoginRepository.findByEmail(tripFormDTO.email())
-                .orElseThrow(() -> new UsernameNotFoundException(tripFormDTO.email()));
+    public void createTrip(TripDTO tripDTO) {
+        UserLogin user = userLoginRepository.findByEmail(tripDTO.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException(tripDTO.getEmail()));
 
         Trip trip = new Trip();
-        trip.setDestination(tripFormDTO.destination());
-        trip.setOrigin(tripFormDTO.origin());
+        trip.setDestination(tripDTO.getDestination());
+        trip.setOrigin(tripDTO.getOrigin());
+        trip.setPlannedArrivalDateTime(tripDTO.getPlannedArrivalDateTime());
+        trip.setPlannedDepartureDateTime(tripDTO.getPlannedDepartureDateTime());
         trip.setDriver(user);
 
         tripRepository.save(trip);
@@ -51,19 +59,24 @@ public class TripServiceImpl implements TripService {
         tripRepository.save(trip);
     }
 
-    public Page<Trip> searchTrips(String origin, String destination, Pageable pageable) {
-        Page<Trip> trips;
+
+    public Page<TripDTO> searchTrips(String origin, String destination, Pageable pageable) {
+        Page<Trip> tripPage;
 
         if (!origin.isEmpty() && !destination.isEmpty()) {
-            trips = tripRepository.findAllByOriginAndDestination(destination, origin, pageable);
+            tripPage = tripRepository.findAllByOriginAndDestination(destination, origin, pageable);
         } else if (!destination.isEmpty()) {
-            trips = tripRepository.findAllByDestination(destination, pageable);
+            tripPage = tripRepository.findAllByDestination(destination, pageable);
         } else if (!origin.isEmpty()) {
-            trips = tripRepository.findAllByOrigin(origin, pageable);
+            tripPage = tripRepository.findAllByOrigin(origin, pageable);
         } else {
-            trips = tripRepository.findAll(pageable);
+            tripPage = tripRepository.findAll(pageable);
         }
-        return trips;
+        List<TripDTO> tripDTOS= tripPage.stream()
+                .map(tripMapper)
+                .toList();
+
+        return new PageImpl<>(tripDTOS, pageable, tripDTOS.size());
     }
 
 }

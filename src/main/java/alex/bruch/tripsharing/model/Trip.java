@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -35,4 +37,19 @@ public class Trip {
 
     @Column(name = "destination")
     private String destination;
+
+    @Column(name = "planned_departure_date_time")
+    private LocalDateTime plannedDepartureDateTime;
+
+    @Column(name = "planned_arrival_date_time")
+    private LocalDateTime plannedArrivalDateTime;
+
+    public Duration getDurationHours() {
+        if (plannedDepartureDateTime != null && plannedArrivalDateTime != null) {
+            return Duration.between(plannedDepartureDateTime, plannedArrivalDateTime);
+        }
+        return null;
+    }
+
+
 }

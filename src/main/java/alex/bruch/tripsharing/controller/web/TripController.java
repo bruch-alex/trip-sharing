@@ -1,6 +1,6 @@
 package alex.bruch.tripsharing.controller.web;
 
-import alex.bruch.tripsharing.dto.TripFormDTO;
+import alex.bruch.tripsharing.dto.TripDTO;
 import alex.bruch.tripsharing.model.Trip;
 import alex.bruch.tripsharing.service.TripService;
 import org.springframework.data.domain.Page;
@@ -32,25 +32,27 @@ public class TripController {
                          @RequestParam(required = false) String destination,
                          @PageableDefault(size = 5) Pageable pageable,
                          Model model) {
-        Page<Trip> resultTrips = tripService.searchTrips(origin, destination, pageable);
+        Page<TripDTO> resultTrips = tripService.searchTrips(origin, destination, pageable);
 
-        model.addAttribute("origin", origin);
-        model.addAttribute("destination", destination);
-        model.addAttribute("trips", resultTrips.getContent());
+        //model.addAttribute("origin", origin);
+        //model.addAttribute("destination", destination);
         model.addAttribute("page", resultTrips);
+        model.addAttribute("trips", resultTrips.getContent());
 
         return "trips/list-trips";
     }
 
     @GetMapping("/create")
     public String getCreateTripPage(Model model, Principal principal) {
-        model.addAttribute("tripFormDTO", new TripFormDTO("", "", principal.getName()));
+        TripDTO tripDTO = new TripDTO();
+        tripDTO.setEmail(principal.getName());
+        model.addAttribute("tripDTO", tripDTO);
         return "trips/create-trip";
     }
 
     @PostMapping("/create")
-    public String postCreateTripPage(@ModelAttribute TripFormDTO tripFormDTO) {
-        tripService.createTrip(tripFormDTO);
+    public String postCreateTripPage(@ModelAttribute TripDTO tripDTO) {
+        tripService.createTrip(tripDTO);
         return "redirect:create";
     }
 

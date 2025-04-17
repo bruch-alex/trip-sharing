@@ -1,31 +1,27 @@
-<div th:fragment="tripCard(trip)">
+<div th:fragment="tripCard(trip)" xmlns:th="http://www.thymeleaf.org">
     <div class="trip-card">
-        <div class="trip-header">
-            <div class="price-section" th:text="price">₽</div>
-        </div>
-
         <div class="route-info">
             <div class="city-time">
-                <!--                <strong th:text="${trip.timeFrom}">09:30</strong>-->
-                <span th:text="${trip.origin}">Калининград</span>
-                <!--                <span th:text="${trip.destination}">24 апр, чт</span>-->
+                <span class= "time" th:text="${#temporals.format(trip.plannedDepartureDateTime, 'HH:mm')}">time</span>
+                <span th:text="${trip.origin}">city</span>
+                <span th:text="${#temporals.format(trip.plannedDepartureDateTime, 'dd MMM, E')}">date</span>
             </div>
 
             <div class="route-duration">
-                🚌 В пути: 1 ч 50 м
+                🚌 В пути: <span th:text="${trip.durationHours + ' ч. ' + trip.durationMinutes + ' мин.'}">time.</span>
             </div>
 
             <div class="city-time">
-                <!--                <strong th:text="${trip.timeTo}">12:20</strong>-->
-                <span th:text="${trip.destination}">Санкт-Петербург</span>
-                <!--                <span th:text="${trip.dateTo}">24 апр, чт</span>-->
+                <span class= "time" th:text="${#temporals.format(trip.plannedArrivalDateTime, 'HH:mm')}">time</span>
+                <span th:text="${trip.destination}">city</span>
+                <span th:text="${#temporals.format(trip.plannedArrivalDateTime, 'dd MMM, E')}">date</span>
             </div>
         </div>
 
         <div class="trip-footer">
-<!--            <div class="luggage-info" th:text="Available passengers seats">-->
-<!--                Passengers-->
-<!--            </div>-->
+            <!--            <div class="luggage-info" th:text="Available passengers seats">-->
+            <!--                Passengers-->
+            <!--            </div>-->
             <button class="btn btn-primary btn-sm">Выбрать билет</button>
         </div>
     </div>
