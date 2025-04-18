@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
->
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/zephyr/bootstrap.min.css" rel="stylesheet">
@@ -16,13 +16,13 @@
         <a class="navbar-brand" href="/trips">TripSharing</a>
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item">
+                <li class="nav-item"  role="presentation" sec:authorize="isAuthenticated()">
                     <a class="nav-link active"
                        href="/trips/myTrips">My Trips
                         <span class="visually-hidden">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation" sec:authorize="isAuthenticated()">
                     <a class="nav-link"
                        th:href="@{/users/register}"
                        role="tab">Profile</a>
