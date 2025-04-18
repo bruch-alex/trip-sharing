@@ -1,8 +1,8 @@
-<div th:fragment="tripCard(trip)" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="tripCard(trip)" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="trip-card">
         <div class="route-info">
             <div class="city-time">
-                <span class= "time" th:text="${#temporals.format(trip.plannedDepartureDateTime, 'HH:mm')}">time</span>
+                <span class="time" th:text="${#temporals.format(trip.plannedDepartureDateTime, 'HH:mm')}">time</span>
                 <span th:text="${trip.origin}">city</span>
                 <span th:text="${#temporals.format(trip.plannedDepartureDateTime, 'dd MMM, E')}">date</span>
             </div>
@@ -12,17 +12,46 @@
             </div>
 
             <div class="city-time">
-                <span class= "time" th:text="${#temporals.format(trip.plannedArrivalDateTime, 'HH:mm')}">time</span>
+                <span class="time" th:text="${#temporals.format(trip.plannedArrivalDateTime, 'HH:mm')}">time</span>
                 <span th:text="${trip.destination}">city</span>
                 <span th:text="${#temporals.format(trip.plannedArrivalDateTime, 'dd MMM, E')}">date</span>
             </div>
         </div>
 
-        <div class="trip-footer">
-            <!--            <div class="luggage-info" th:text="Available passengers seats">-->
-            <!--                Passengers-->
-            <!--            </div>-->
-            <button class="btn btn-primary btn-sm">Выбрать билет</button>
+        <div class="trip-footer" sec:authorize="isAuthenticated()">
+
+            <!-- Join Trip Button -->
+            <form th:action="@{/trips/add-passenger}" method="post" class="mb-2">
+                <input type="hidden" name="tripId" th:value="${trip.id}"/>
+                <button type="submit" class="btn btn-primary">Join Trip</button>
+            </form>
+
+            <!-- Accordion -->
+            <div class="accordion" th:id="'accordionTrip__' + ${trip.id}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" th:id="'headingTrip__' + ${trip.id}">
+                        <button class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                th:data-bs-target="'#collapseTrip__' + ${trip.id}"
+                                th:aria-controls="'collapseTrip__' + ${trip.id}">
+                            View Passengers
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse"
+                         th:id="'collapseTrip__' + ${trip.id}"
+                         th:attr="aria-labelledby='headingTrip__' + ${trip.id}">
+                        <div class="accordion-body">
+                            <ul>
+                                <li th:each="passenger : ${trip.passengers}" th:text="${passenger.email}">
+                                    Passenger Name
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

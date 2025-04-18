@@ -13,26 +13,30 @@
 <body>
 <main layout:fragment="content" class="container mt-5">
 
-    <!--Page navi-->
+    <!-- previous/next page nav -->
     <nav aria-label="Page navigation" class="mt-4 d-flex justify-content-center">
         <ul class="pagination">
             <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
-                <a class="page-link" th:href="@{/trips/search(page=${page.number - 1}, origin=${origin}, destination=${destination})}">Previous</a>
+                <a class="page-link"
+                   th:href="@{/trips/search(page=${page.number - 1}, origin=${origin}, destination=${destination})}">Previous</a>
             </li>
 
             <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
                 th:classappend="${page.number == i} ? 'active'">
-                <a class="page-link" th:href="@{/trips/search(page=${i}, origin=${origin}, destination=${destination})}" th:text="${i + 1}">1</a>
+                <a class="page-link" th:href="@{/trips/search(page=${i}, origin=${origin}, destination=${destination})}"
+                   th:text="${i + 1}">1</a>
             </li>
 
             <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
-                <a class="page-link" th:href="@{/trips/search(page=${page.number + 1}, origin=${origin}, destination=${destination})}">Next</a>
+                <a class="page-link"
+                   th:href="@{/trips/search(page=${page.number + 1}, origin=${origin}, destination=${destination})}">Next</a>
             </li>
         </ul>
     </nav>
 
     <h2>Available trips</h2>
 
+    <!-- List with trips -->
     <div th:each="trip : ${trips}">
         <th:block th:replace="~{fragments/trip-fragment :: tripCard(${trip})}"></th:block>
     </div>

@@ -26,12 +26,10 @@ public class SecurityConfig {
                     auth.anyRequest().permitAll();
                 })
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/login")
-                        .defaultSuccessUrl("/trips", true)
+                        .defaultSuccessUrl("/trips")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/logout")
                         .logoutSuccessUrl("/trips")
                         .permitAll())
                 .rememberMe(auth -> auth

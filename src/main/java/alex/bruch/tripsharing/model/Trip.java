@@ -27,8 +27,8 @@ public class Trip {
     @ManyToMany
     @JoinTable(
             name = "trip_passenger",
-            joinColumns = @JoinColumn(name = "passenger_id"),
-            inverseJoinColumns = @JoinColumn(name = "trip_id")
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "passenger_id")
     )
     private List<UserLogin> passengers;
 
@@ -43,6 +43,9 @@ public class Trip {
 
     @Column(name = "planned_arrival_date_time")
     private LocalDateTime plannedArrivalDateTime;
+
+    @Column(name = "available_seats")
+    private int availableSeats = 5;
 
     @Transient
     private Duration duration;

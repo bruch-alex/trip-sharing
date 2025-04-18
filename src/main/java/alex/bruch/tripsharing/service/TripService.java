@@ -17,4 +17,6 @@ public interface TripService {
     Page<Trip> searchTrips(String origin, String destination, Pageable pageable);
 
     Page<Trip> findByDriverEmail(String driverEmail, Pageable pageable);
+
+    void addPassengerToTrip(String email, Long tripId);
 }

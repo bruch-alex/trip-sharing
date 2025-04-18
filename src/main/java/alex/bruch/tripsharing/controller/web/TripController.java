@@ -62,10 +62,16 @@ public class TripController {
             return "redirect:/login";
         }
 
-        Page<Trip> trips = tripService.findByDriverEmail(principal.getName(),pageable);
+        Page<Trip> trips = tripService.findByDriverEmail(principal.getName(), pageable);
         model.addAttribute("page", trips);
         model.addAttribute("trips", trips.getContent());
         return "trips/list-trips";
+    }
+
+    @PostMapping("/add-passenger")
+    public String joinTrip(@RequestParam Long tripId, Principal principal) {
+        tripService.addPassengerToTrip(principal.getName(), tripId);
+        return "redirect:myTrips";
     }
 
 
