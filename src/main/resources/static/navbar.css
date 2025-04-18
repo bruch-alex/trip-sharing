@@ -1,0 +1,9 @@
+.nav {
+    display: flex;
+    width: 100%;
+}
+
+.login-btn {
+    margin-left: auto; /* Push the login button to the right */
+}
+

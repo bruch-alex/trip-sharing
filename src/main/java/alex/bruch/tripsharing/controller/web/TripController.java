@@ -32,10 +32,7 @@ public class TripController {
                          @RequestParam(required = false) String destination,
                          @PageableDefault(size = 5) Pageable pageable,
                          Model model) {
-        Page<TripDTO> resultTrips = tripService.searchTrips(origin, destination, pageable);
-
-        //model.addAttribute("origin", origin);
-        //model.addAttribute("destination", destination);
+        Page<Trip> resultTrips = tripService.searchTrips(origin, destination, pageable);
         model.addAttribute("page", resultTrips);
         model.addAttribute("trips", resultTrips.getContent());
 
@@ -44,6 +41,9 @@ public class TripController {
 
     @GetMapping("/create")
     public String getCreateTripPage(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
         TripDTO tripDTO = new TripDTO();
         tripDTO.setEmail(principal.getName());
         model.addAttribute("tripDTO", tripDTO);
@@ -53,7 +53,19 @@ public class TripController {
     @PostMapping("/create")
     public String postCreateTripPage(@ModelAttribute TripDTO tripDTO) {
         tripService.createTrip(tripDTO);
-        return "redirect:create";
+        return "redirect:myTrips";
+    }
+
+    @GetMapping("/myTrips")
+    public String getMyTrips(Model model, Principal principal, @PageableDefault(size = 5) Pageable pageable) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        Page<Trip> trips = tripService.findByDriverEmail(principal.getName(),pageable);
+        model.addAttribute("page", trips);
+        model.addAttribute("trips", trips.getContent());
+        return "trips/list-trips";
     }
 
 

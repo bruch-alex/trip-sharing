@@ -44,11 +44,13 @@ public class Trip {
     @Column(name = "planned_arrival_date_time")
     private LocalDateTime plannedArrivalDateTime;
 
-    public Duration getDurationHours() {
+    @Transient
+    private Duration duration;
+
+    public void updateDuration() {
         if (plannedDepartureDateTime != null && plannedArrivalDateTime != null) {
-            return Duration.between(plannedDepartureDateTime, plannedArrivalDateTime);
+            duration = Duration.between(plannedDepartureDateTime, plannedArrivalDateTime);
         }
-        return null;
     }
 
 
