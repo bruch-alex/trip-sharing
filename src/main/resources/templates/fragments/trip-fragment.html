@@ -3,7 +3,8 @@
         <div class="route-info">
             <div class="city-time">
                 <span class="time" th:text="${#temporals.format(trip.plannedDepartureDateTime, 'HH:mm')}">time</span>
-                <span th:text="${trip.origin}">city</span>
+                <span th:text="${trip.originAddress.city}">city</span>
+                <span th:text="${trip.originAddress.street}">street</span>
                 <span th:text="${#temporals.format(trip.plannedDepartureDateTime, 'dd MMM, E')}">date</span>
             </div>
 
@@ -13,7 +14,8 @@
 
             <div class="city-time">
                 <span class="time" th:text="${#temporals.format(trip.plannedArrivalDateTime, 'HH:mm')}">time</span>
-                <span th:text="${trip.destination}">city</span>
+                <span th:text="${trip.destinationAddress.city}">city</span>
+                <span th:text="${trip.destinationAddress.street}">street</span>
                 <span th:text="${#temporals.format(trip.plannedArrivalDateTime, 'dd MMM, E')}">date</span>
             </div>
         </div>

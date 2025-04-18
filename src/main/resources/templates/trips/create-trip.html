@@ -11,30 +11,64 @@
 <body>
 
 <main layout:fragment="content" class="container mt-5">
-    <div class="container border p-4 rounded shadow-lg" style="width: 300px;">
+    <div class="container border p-4 rounded shadow-lg">
         <h3 class="text-center mb-4">Create new trip</h3>
-        <form method="post" th:action="@{/trips/create}" th:object="${tripDTO}">
-                <div class="form-floating mb-3">
-                    <!-- TODO: Take driverId later from principal -->
-                    <input class="form-control" id="email" name="email" type="email" th:field="*{email}" readonly>
-                    <label for="email">Driver Email</label>
+        <form method="post" th:action="@{/trips/create}" th:object="${tripDTO}" class="container mt-4">
+            <div class="form-floating mb-3">
+                <input class="form-control" id="email" name="email" type="email" th:field="*{email}" readonly>
+                <label for="email">Driver Email</label>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend>From:</legend>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="originCity" placeholder=""
+                                   th:field="*{origin.city}"
+                                   required>
+                            <label for="originCity">City:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="pickupStreet" placeholder=""
+                                   th:field="*{origin.street}"
+                                   required/>
+                            <label class="form-label" for="pickupStreet">Street</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="datetime-local" id="plannedDepartureDateTime"
+                                   name="plannedDepartureDateTime" th:field="*{plannedDepartureDateTime}" placeholder=""
+                                   required>
+                            <label for="plannedDepartureDateTime">Departure at</label>
+                        </div>
+                    </fieldset>
                 </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" id="origin" name="origin" th:field="*{origin}" placeholder="From" required>
-                    <label for="origin">From</label>
+
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend>To</legend>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="dropOffCity" placeholder=""
+                                   th:field="*{destination.city}"
+                                   required>
+                            <label for="dropOffCity">City:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="dropOffStreet" placeholder=""
+                                   th:field="*{destination.street}"
+                                   required/>
+                            <label class="form-label" for="dropOffStreet">Street</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="datetime-local" id="plannedArrivalDateTime"
+                                   name="plannedArrivalDateTime" th:field="*{plannedArrivalDateTime}" placeholder=""
+                                   required>
+                            <label for="plannedArrivalDateTime">Arrival at</label>
+                        </div>
+                    </fieldset>
                 </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" id="destination" name="destination" th:field="*{destination}" placeholder="To" required>
-                    <label for="destination">To</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" type="datetime-local" id="plannedDepartureDateTime" name="plannedDepartureDateTime" th:field="*{plannedDepartureDateTime}" placeholder="" required>
-                    <label for="plannedDepartureDateTime">Departure at</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" type="datetime-local" id="plannedArrivalDateTime" name="plannedArrivalDateTime" th:field="*{plannedArrivalDateTime}" placeholder="" required>
-                    <label for="plannedArrivalDateTime">Arrival at</label>
-                </div>
+            </div>
+
             <div class="mb-3">
                 <label for="seats" class="form-label mt-4">Amount of seats</label>
                 <select class="form-select" id="seats" name="seats" th:field="*{seats}" required>
@@ -45,9 +79,9 @@
                     <option value="5">5</option>
                 </select>
             </div>
-                <div class="form-group text-center">
-                    <button class="btn btn-primary w-100" id="submitButton" type="submit">Create</button>
-                </div>
+            <div class="form-group text-center">
+                <button class="btn btn-primary w-100" id="submitButton" type="submit">Create</button>
+            </div>
         </form>
     </div>
 </main>

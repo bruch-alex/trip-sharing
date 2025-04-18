@@ -32,11 +32,13 @@ public class Trip {
     )
     private List<UserLogin> passengers;
 
-    @Column(name = "origin")
-    private String origin;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "origin_address_id")
+    private Address originAddress;
 
-    @Column(name = "destination")
-    private String destination;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "destination_address_id")
+    private Address destinationAddress;
 
     @Column(name = "planned_departure_date_time")
     private LocalDateTime plannedDepartureDateTime;

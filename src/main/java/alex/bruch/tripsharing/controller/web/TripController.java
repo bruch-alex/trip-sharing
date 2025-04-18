@@ -1,6 +1,7 @@
 package alex.bruch.tripsharing.controller.web;
 
 import alex.bruch.tripsharing.dto.TripDTO;
+import alex.bruch.tripsharing.model.Address;
 import alex.bruch.tripsharing.model.Trip;
 import alex.bruch.tripsharing.service.TripService;
 import org.springframework.data.domain.Page;
@@ -23,14 +24,16 @@ public class TripController {
     }
 
     @GetMapping
-    public String getIndexPage() {
+    public String getIndexPage(Model model) {
+        model.addAttribute("origin", new Address());
+        model.addAttribute("destination", new Address());
         return "trips/index";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(required = false) String origin,
-                         @RequestParam(required = false) String destination,
-                         @PageableDefault(size = 5) Pageable pageable,
+    public String search(@PageableDefault(size = 5) Pageable pageable,
+                         @ModelAttribute Address origin,
+                         @ModelAttribute Address destination,
                          Model model) {
         Page<Trip> resultTrips = tripService.searchTrips(origin, destination, pageable);
         model.addAttribute("page", resultTrips);
