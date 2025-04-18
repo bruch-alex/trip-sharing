@@ -44,8 +44,8 @@ public class Trip {
     @Column(name = "planned_arrival_date_time")
     private LocalDateTime plannedArrivalDateTime;
 
-    @Column(name = "available_seats")
-    private int availableSeats = 5;
+    @Column(name = "total_seats")
+    private int totalSeats = 5;
 
     @Transient
     private Duration duration;

@@ -42,11 +42,9 @@
                          th:id="'collapseTrip__' + ${trip.id}"
                          th:attr="aria-labelledby='headingTrip__' + ${trip.id}">
                         <div class="accordion-body">
-                            <ul>
-                                <li th:each="passenger : ${trip.passengers}" th:text="${passenger.email}">
-                                    Passenger Name
-                                </li>
-                            </ul>
+                            <p th:each="passenger : ${trip.passengers}" th:text="'Passenger: ' + ${passenger.email}">
+                                Passenger Name</p>
+                            <p th:text="'Available seats: ' + (${trip.totalSeats} - ${trip.passengers.size})"></p>
                         </div>
                     </div>
                 </div>

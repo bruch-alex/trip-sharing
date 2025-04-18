@@ -14,30 +14,40 @@
     <div class="container border p-4 rounded shadow-lg" style="width: 300px;">
         <h3 class="text-center mb-4">Create new trip</h3>
         <form method="post" th:action="@{/trips/create}" th:object="${tripDTO}">
-            <div class="form-floating mb-3">
-                <!-- TODO: Take driverId later from principal -->
-                <input class="form-control" id="email" name="email" type="email" th:field="*{email}" readonly>
-                <label for="email">Driver Email</label>
+                <div class="form-floating mb-3">
+                    <!-- TODO: Take driverId later from principal -->
+                    <input class="form-control" id="email" name="email" type="email" th:field="*{email}" readonly>
+                    <label for="email">Driver Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="origin" name="origin" th:field="*{origin}" placeholder="From" required>
+                    <label for="origin">From</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="destination" name="destination" th:field="*{destination}" placeholder="To" required>
+                    <label for="destination">To</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" type="datetime-local" id="plannedDepartureDateTime" name="plannedDepartureDateTime" th:field="*{plannedDepartureDateTime}" placeholder="" required>
+                    <label for="plannedDepartureDateTime">Departure at</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" type="datetime-local" id="plannedArrivalDateTime" name="plannedArrivalDateTime" th:field="*{plannedArrivalDateTime}" placeholder="" required>
+                    <label for="plannedArrivalDateTime">Arrival at</label>
+                </div>
+            <div class="mb-3">
+                <label for="seats" class="form-label mt-4">Amount of seats</label>
+                <select class="form-select" id="seats" name="seats" th:field="*{seats}" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
             </div>
-            <div class="form-floating mb-3">
-                <input class="form-control" id="origin" name="origin" th:field="*{origin}" placeholder="From" required>
-                <label for="origin">From</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input class="form-control" id="destination" name="destination" th:field="*{destination}" placeholder="To" required>
-                <label for="destination">To</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input class="form-control" type="datetime-local" id="plannedDepartureDateTime" name="plannedDepartureDateTime" th:field="*{plannedDepartureDateTime}" placeholder="" required>
-                <label for="plannedDepartureDateTime">Departure at</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input class="form-control" type="datetime-local" id="plannedArrivalDateTime" name="plannedArrivalDateTime" th:field="*{plannedArrivalDateTime}" placeholder="" required>
-                <label for="plannedArrivalDateTime">Arrival at</label>
-            </div>
-            <div class="form-group text-center">
-                <button class="btn btn-primary w-100" id="submitButton" type="submit">Create</button>
-            </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary w-100" id="submitButton" type="submit">Create</button>
+                </div>
         </form>
     </div>
 </main>

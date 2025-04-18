@@ -6,7 +6,6 @@ import alex.bruch.tripsharing.model.UserLogin;
 import alex.bruch.tripsharing.repo.TripRepository;
 import alex.bruch.tripsharing.repo.UserLoginRepository;
 import alex.bruch.tripsharing.service.TripService;
-import alex.bruch.tripsharing.service.mapper.TripMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,12 +18,10 @@ public class TripServiceImpl implements TripService {
 
     private final TripRepository tripRepository;
     private final UserLoginRepository userLoginRepository;
-    private final TripMapper tripMapper;
 
-    public TripServiceImpl(TripRepository tripRepository, UserLoginRepository userLoginRepository, TripMapper tripMapper) {
+    public TripServiceImpl(TripRepository tripRepository, UserLoginRepository userLoginRepository) {
         this.tripRepository = tripRepository;
         this.userLoginRepository = userLoginRepository;
-        this.tripMapper = tripMapper;
     }
 
     @Override
@@ -38,6 +35,7 @@ public class TripServiceImpl implements TripService {
         trip.setPlannedArrivalDateTime(tripDTO.getPlannedArrivalDateTime());
         trip.setPlannedDepartureDateTime(tripDTO.getPlannedDepartureDateTime());
         trip.setDriver(user);
+        trip.setTotalSeats(tripDTO.getSeats());
 
         tripRepository.save(trip);
         System.out.println("Trip created");
@@ -88,7 +86,7 @@ public class TripServiceImpl implements TripService {
         UserLogin passenger = userLoginRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
         List<UserLogin> passengers = trip.getPassengers();
 
-        if (passengers.size() > trip.getAvailableSeats()) {
+        if (passengers.size() > trip.getTotalSeats()) {
             throw new RuntimeException("All seats are taken");
         }
         if (passengers.contains(passenger)) {

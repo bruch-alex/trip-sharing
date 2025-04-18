@@ -10,14 +10,6 @@ body {
     margin-bottom: 30px;
 }
 
-.badge-cheapest {
-    background-color: #35c772;
-    color: #fff;
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 20px;
-}
-
 .route-info {
     display: flex;
     justify-content: space-between;
