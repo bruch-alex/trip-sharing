@@ -60,7 +60,7 @@ public class TripServiceImpl implements TripService {
     }
 
 
-    public Page<TripDTO> searchTrips(String origin, String destination, Pageable pageable) {
+    public Page<Trip> searchTrips(String origin, String destination, Pageable pageable) {
         Page<Trip> tripPage;
 
         if (!origin.isEmpty() && !destination.isEmpty()) {
@@ -72,11 +72,17 @@ public class TripServiceImpl implements TripService {
         } else {
             tripPage = tripRepository.findAll(pageable);
         }
-        List<TripDTO> tripDTOS= tripPage.stream()
-                .map(tripMapper)
-                .toList();
 
-        return new PageImpl<>(tripDTOS, pageable, tripDTOS.size());
+
+        return tripPage;
+    }
+
+    @Override
+    public Page<Trip> findByDriverEmail(String driverEmail, Pageable pageable) {
+        UserLogin user = userLoginRepository.findByEmail(driverEmail)
+                .orElseThrow(() -> new UsernameNotFoundException(driverEmail));
+
+        return tripRepository.findAllByDriver(user, pageable);
     }
 
 }

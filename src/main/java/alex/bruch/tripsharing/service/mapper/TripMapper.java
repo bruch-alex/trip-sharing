@@ -17,9 +17,7 @@ public class TripMapper implements Function<Trip, TripDTO> {
                 trip.getOrigin(),
                 trip.getDestination(),
                 trip.getPlannedDepartureDateTime(),
-                trip.getPlannedArrivalDateTime(),
-                trip.getDurationHours().toHours(),
-                trip.getDurationHours().toMinutes() % 60
+                trip.getPlannedArrivalDateTime()
         );
     }
 }

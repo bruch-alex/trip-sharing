@@ -14,5 +14,7 @@ public interface TripService {
 
     void update(Trip trip);
 
-    Page<TripDTO> searchTrips(String origin, String destination, Pageable pageable);
+    Page<Trip> searchTrips(String origin, String destination, Pageable pageable);
+
+    Page<Trip> findByDriverEmail(String driverEmail, Pageable pageable);
 }
