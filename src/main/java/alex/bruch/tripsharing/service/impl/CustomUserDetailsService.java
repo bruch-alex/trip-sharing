@@ -4,6 +4,7 @@ import alex.bruch.tripsharing.model.Role;
 import alex.bruch.tripsharing.model.UserLogin;
 import alex.bruch.tripsharing.repo.RoleRepository;
 import alex.bruch.tripsharing.repo.UserLoginRepository;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,12 +35,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         System.out.println("Logged in");
 
+        List<SimpleGrantedAuthority> authorities = login.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
+
         return new User(
                 login.getEmail(),
                 login.getPassword(),
                 login.getEnabled(),
                 true, true, true,
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                authorities
         );
     }
 

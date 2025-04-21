@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html
-        xmlns:th="http://www.thymeleaf.org"
+        xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
         lang="en"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout}">
@@ -10,24 +10,8 @@
     <title>Bus Tickets</title>
     <link rel="stylesheet" href="/trip-card.css">
 </head>
-<style>
-    .trip-badge {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background-color: #ff5722; /* Aviasales-style orange */
-        color: #fff;
-        padding: 4px 10px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        z-index: 1;
-    }
-</style>
 <body>
 <main layout:fragment="content" class="container mt-5">
-
     <!-- previous/next page nav -->
     <nav aria-label="Page navigation" class="mt-4 d-flex justify-content-center">
         <ul class="pagination">
@@ -50,7 +34,6 @@
     </nav>
 
     <h2>Available trips</h2>
-
     <!-- List with trips -->
     <div th:each="trip : ${trips}">
         <th:block th:replace="~{fragments/trip-fragment :: tripCard(${trip})}"></th:block>

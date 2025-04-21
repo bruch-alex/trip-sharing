@@ -9,9 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.sql.Driver;
-import java.util.List;
-
 public interface TripRepository extends JpaRepository<Trip, Long> {
     Page<Trip> findAllByDestinationAddress(Address destinationAddress, Pageable pageable);
 
@@ -21,6 +18,13 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     Page<Trip> findAllByDriver(UserLogin driver, Pageable pageable);
 
-    @Query("SELECT t FROM Trip t WHERE t.driver = :user OR :user MEMBER OF t.passengers")
-    Page<Trip> findAllByDriverOrPassengers(@Param("user") UserLogin user, Pageable pageable);
+    @Query("SELECT t FROM Trip t WHERE :user MEMBER OF t.passengers")
+    Page<Trip> findAllByPassenger(@Param("user") UserLogin user, Pageable pageable);
+
+    Page<Trip> findAllByOriginAddress_CityAndDestinationAddress_City(String originAddressCity, String destinationAddressCity, Pageable pageable);
+
+    @Query("SELECT t FROM Trip t WHERE t.originAddress.city = :origin")
+    Page<Trip> findAllByOriginAddress_City(@Param("origin") String originAddressCity, Pageable pageable);
+
+    Page<Trip> findAllByDestinationAddress_City(String destinationAddressCity, Pageable pageable);
 }

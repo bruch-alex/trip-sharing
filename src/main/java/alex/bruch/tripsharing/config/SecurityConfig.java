@@ -22,15 +22,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> {
-                    auth.anyRequest().permitAll();
-                })
+        return http.authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/driver/**").hasRole("DRIVER")
+                        .anyRequest().permitAll())
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/trips")
+                        .defaultSuccessUrl("/")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/trips")
+                        .logoutSuccessUrl("/")
                         .permitAll())
                 .rememberMe(auth -> auth
                         .key("secret")

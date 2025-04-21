@@ -1,7 +1,6 @@
 package alex.bruch.tripsharing.controller.web;
 
-import alex.bruch.tripsharing.dto.TripDTO;
-import alex.bruch.tripsharing.model.Address;
+import alex.bruch.tripsharing.dto.SearchFormAddressDTO;
 import alex.bruch.tripsharing.model.Trip;
 import alex.bruch.tripsharing.service.TripService;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/trips")
 public class TripController {
 
     private final TripService tripService;
@@ -25,38 +23,19 @@ public class TripController {
 
     @GetMapping
     public String getIndexPage(Model model) {
-        model.addAttribute("origin", new Address());
-        model.addAttribute("destination", new Address());
+        model.addAttribute("addressDTO", new SearchFormAddressDTO());
         return "trips/index";
     }
 
     @GetMapping("/search")
     public String search(@PageableDefault(size = 5) Pageable pageable,
-                         @ModelAttribute Address origin,
-                         @ModelAttribute Address destination,
+                         @ModelAttribute SearchFormAddressDTO addressDTO,
                          Model model) {
-        Page<Trip> resultTrips = tripService.searchTrips(origin, destination, pageable);
+        Page<Trip> resultTrips = tripService.searchTrips(addressDTO, pageable);
         model.addAttribute("page", resultTrips);
         model.addAttribute("trips", resultTrips.getContent());
 
         return "trips/list-trips";
-    }
-
-    @GetMapping("/create")
-    public String getCreateTripPage(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
-        TripDTO tripDTO = new TripDTO();
-        tripDTO.setEmail(principal.getName());
-        model.addAttribute("tripDTO", tripDTO);
-        return "trips/create-trip";
-    }
-
-    @PostMapping("/create")
-    public String postCreateTripPage(@ModelAttribute TripDTO tripDTO) {
-        tripService.createTrip(tripDTO);
-        return "redirect:myTrips";
     }
 
     @GetMapping("/myTrips")
@@ -65,13 +44,13 @@ public class TripController {
             return "redirect:/login";
         }
 
-        Page<Trip> trips = tripService.findByDriverEmail(principal.getName(), pageable);
+        Page<Trip> trips = tripService.findAllByEmail(principal.getName(), pageable);
         model.addAttribute("page", trips);
         model.addAttribute("trips", trips.getContent());
         return "trips/list-trips";
     }
 
-    @PostMapping("/add-passenger")
+    @PostMapping("/join-trip")
     public String joinTrip(@RequestParam Long tripId, Principal principal) {
         tripService.addPassengerToTrip(principal.getName(), tripId);
         return "redirect:myTrips";

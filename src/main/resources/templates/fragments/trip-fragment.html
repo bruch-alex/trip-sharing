@@ -23,7 +23,7 @@
         <div class="trip-footer" sec:authorize="isAuthenticated()">
 
             <!-- Join Trip Button -->
-            <form th:action="@{/trips/add-passenger}" method="post" class="mb-2">
+            <form th:action="@{/join-trip}" method="post" class="mb-2">
                 <input type="hidden" name="tripId" th:value="${trip.id}"/>
                 <button type="submit" class="btn btn-primary">Join Trip</button>
             </form>

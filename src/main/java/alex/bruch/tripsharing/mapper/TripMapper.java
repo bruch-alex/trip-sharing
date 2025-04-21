@@ -3,13 +3,12 @@ package alex.bruch.tripsharing.mapper;
 import alex.bruch.tripsharing.dto.TripDTO;
 import alex.bruch.tripsharing.model.Address;
 import alex.bruch.tripsharing.model.Trip;
-import alex.bruch.tripsharing.repo.AddressRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TripMapper {
 
-    public static Trip toEntity(TripDTO tripDTO, AddressRepository addressRepository) {
+    public static Trip toEntity(TripDTO tripDTO) {
         Trip trip = new Trip();
 
         trip.setPlannedArrivalDateTime(tripDTO.getPlannedArrivalDateTime());

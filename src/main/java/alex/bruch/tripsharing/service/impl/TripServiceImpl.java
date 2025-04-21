@@ -1,11 +1,10 @@
 package alex.bruch.tripsharing.service.impl;
 
+import alex.bruch.tripsharing.dto.SearchFormAddressDTO;
 import alex.bruch.tripsharing.dto.TripDTO;
 import alex.bruch.tripsharing.mapper.TripMapper;
-import alex.bruch.tripsharing.model.Address;
 import alex.bruch.tripsharing.model.Trip;
 import alex.bruch.tripsharing.model.UserLogin;
-import alex.bruch.tripsharing.repo.AddressRepository;
 import alex.bruch.tripsharing.repo.TripRepository;
 import alex.bruch.tripsharing.repo.UserLoginRepository;
 import alex.bruch.tripsharing.service.TripService;
@@ -21,19 +20,17 @@ public class TripServiceImpl implements TripService {
 
     private final TripRepository tripRepository;
     private final UserLoginRepository userLoginRepository;
-    private final AddressRepository addressRepository;
 
-    public TripServiceImpl(TripRepository tripRepository, UserLoginRepository userLoginRepository, AddressRepository addressRepository) {
+    public TripServiceImpl(TripRepository tripRepository, UserLoginRepository userLoginRepository) {
         this.tripRepository = tripRepository;
         this.userLoginRepository = userLoginRepository;
-        this.addressRepository = addressRepository;
     }
 
     @Override
     public void createTrip(TripDTO tripDTO) {
         UserLogin user = userLoginRepository.findByEmail(tripDTO.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException(tripDTO.getEmail()));
-        Trip trip = TripMapper.toEntity(tripDTO, addressRepository);
+        Trip trip = TripMapper.toEntity(tripDTO);
         trip.setDriver(user);
         tripRepository.save(trip);
         System.out.println("Trip created");
@@ -55,15 +52,15 @@ public class TripServiceImpl implements TripService {
     }
 
 
-    public Page<Trip> searchTrips(Address origin, Address destination, Pageable pageable) {
+    public Page<Trip> searchTrips(SearchFormAddressDTO address, Pageable pageable) {
         Page<Trip> tripPage;
 
-        if (origin != null && destination != null) {
-            tripPage = tripRepository.findAllByOriginAddressAndDestinationAddress(origin, destination, pageable);
-        } else if (destination != null) {
-            tripPage = tripRepository.findAllByDestinationAddress(destination, pageable);
-        } else if (origin != null) {
-            tripPage = tripRepository.findAllByOriginAddress(origin, pageable);
+        if (!address.getOriginCity().isEmpty() && !address.getDestinationCity().isEmpty()) {
+            tripPage = tripRepository.findAllByOriginAddress_CityAndDestinationAddress_City(address.getOriginCity(), address.getDestinationCity(), pageable);
+        } else if (!address.getDestinationCity().isEmpty()) {
+            tripPage = tripRepository.findAllByDestinationAddress_City(address.getDestinationCity(), pageable);
+        } else if (!address.getOriginCity().isEmpty()) {
+            tripPage = tripRepository.findAllByOriginAddress_City(address.getOriginCity(), pageable);
         } else {
             tripPage = tripRepository.findAll(pageable);
         }
@@ -72,11 +69,19 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Page<Trip> findByDriverEmail(String driverEmail, Pageable pageable) {
-        UserLogin user = userLoginRepository.findByEmail(driverEmail)
-                .orElseThrow(() -> new UsernameNotFoundException(driverEmail));
+    public Page<Trip> findAllByDriver(String email, Pageable pageable) {
+        UserLogin user = userLoginRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
 
-        return tripRepository.findAllByDriverOrPassengers(user, pageable);
+        return tripRepository.findAllByDriver(user, pageable);
+    }
+
+    @Override
+    public Page<Trip> findAllByEmail(String email, Pageable pageable) {
+        UserLogin user = userLoginRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        return tripRepository.findAllByPassenger(user, pageable);
     }
 
     @Override

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver profile</title>
+</head>
+<body>
+<main layout:fragment="content" class="container mt-5">
+
+
+    <a th:href="@{/driver/trips/create}">
+        <button class="btn btn-primary w-100" >Create Trip</button>
+    </a>
+
+</main>
+</body>
+</html>

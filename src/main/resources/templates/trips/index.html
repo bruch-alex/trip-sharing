@@ -13,16 +13,16 @@
 
     <h2 class="text-center">Bus Ticket Search</h2>
 
-    <form action="/trips/search" method="GET">
+    <form action="/search" method="GET" th:object="${addressDTO}">
         <div class="mb-3">
-            <label for="origin" class="form-label">Origin</label>
-            <input type="text" class="form-control" id="origin" name="origin"
-                   placeholder="Enter the origin location" required>
+            <label for="originCity" class="form-label">Origin</label>
+            <input type="text" class="form-control" id="originCity" name="originCity" th:field="*{originCity}"
+                   placeholder="Enter the origin location">
         </div>
 
         <div class="mb-3">
-            <label for="destination" class="form-label">Destination</label>
-            <input type="text" class="form-control" id="destination" name="destination"
+            <label for="destinationCity" class="form-label">Destination</label>
+            <input type="text" class="form-control" id="destinationCity" name="destinationCity" th:field="*{destinationCity}"
                    placeholder="Enter the destination location">
         </div>
 

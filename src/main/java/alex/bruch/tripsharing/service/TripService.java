@@ -1,7 +1,7 @@
 package alex.bruch.tripsharing.service;
 
+import alex.bruch.tripsharing.dto.SearchFormAddressDTO;
 import alex.bruch.tripsharing.dto.TripDTO;
-import alex.bruch.tripsharing.model.Address;
 import alex.bruch.tripsharing.model.Trip;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +15,11 @@ public interface TripService {
 
     void update(Trip trip);
 
-    Page<Trip> searchTrips(Address origin, Address destination, Pageable pageable);
+    Page<Trip> searchTrips(SearchFormAddressDTO address, Pageable pageable);
 
-    Page<Trip> findByDriverEmail(String driverEmail, Pageable pageable);
+    Page<Trip> findAllByEmail(String driverEmail, Pageable pageable);
 
     void addPassengerToTrip(String email, Long tripId);
+
+    Page<Trip> findAllByDriver(String email, Pageable pageable);
 }
